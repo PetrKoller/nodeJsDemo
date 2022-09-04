@@ -6,9 +6,9 @@ async function start() {
 
 start()
     .then((startResponses) => {
-        console.log(`Spoustim aplikaci na portu ${startResponses[0].port}`);
+        console.log(`App listening to ${startResponses[0].port}`);
         console.dir(startResponses, { depth: null });
     })
     .catch((error) => {
-        console.log(`Nastala chyba ${error}`);
+        console.log(`Error during startup ${error}`);
     });

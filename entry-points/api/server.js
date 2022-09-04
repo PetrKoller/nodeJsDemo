@@ -1,11 +1,13 @@
 const express = require("express");
 const defineRoutes = require("./routes").default;
+const configurationProvider = require("../../libraries/configuration-provider");
+const configSchema = require("../../config").default;
 
 let connection;
 
 async function openConnection(expressApp) {
     return new Promise((resolve) => {
-        const portToListen = 8080;
+        const portToListen = configurationProvider.getValue("port");
 
         connection = expressApp.listen(portToListen, () => {
             resolve(connection.address());
@@ -14,6 +16,7 @@ async function openConnection(expressApp) {
 }
 
 async function startWebServer() {
+    configurationProvider.init(configSchema);
     const expressApp = express();
     expressApp.use(express.urlencoded({ extended: true }));
     expressApp.use(express.json());
