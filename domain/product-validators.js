@@ -1,5 +1,5 @@
 const ajv = require("../libraries/validation").default;
-const { productSchema } = require("./product-schema");
+const productSchema = require("./product-schema");
 
 function assertNewProductIsValid(newProduct) {
     let validateProduct = ajv.getSchema("new-product");
@@ -14,7 +14,7 @@ function assertNewProductIsValid(newProduct) {
     }
 
     if (!validateProduct(newProduct)) {
-        throw new Error("Invalid product, validatoin failed");
+        throw new Error("Invalid product, validation failed");
     }
 }
 

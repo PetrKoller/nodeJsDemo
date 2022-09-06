@@ -1,4 +1,4 @@
-exports.productSchema = {
+const productSchema = {
     type: "object",
     properties: {
         id: { type: "string", format: "uuid" },
@@ -8,3 +8,5 @@ exports.productSchema = {
     },
     required: ["name", "price"],
 };
+
+module.exports = productSchema;

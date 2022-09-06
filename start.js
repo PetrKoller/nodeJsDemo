@@ -1,4 +1,5 @@
 const { startWebServer } = require("./entry-points/api/server");
+const { logger } = require("./libraries/logger");
 
 async function start() {
     return Promise.all([startWebServer()]);
@@ -6,9 +7,9 @@ async function start() {
 
 start()
     .then((startResponses) => {
-        console.log(`App listening to ${startResponses[0].port}`);
+        logger.info(`App listening to ${startResponses[0].port}`);
         console.dir(startResponses, { depth: null });
     })
     .catch((error) => {
-        console.log(`Error during startup ${error}`);
+        logger.error(`Error during startup ${error}`);
     });
