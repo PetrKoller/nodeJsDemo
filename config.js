@@ -1,4 +1,4 @@
-exports.default = {
+const config = {
     port: {
         doc: "API listening port. By default 0 (dynamic)",
         format: "Number",
@@ -23,3 +23,5 @@ exports.default = {
         },
     },
 };
+
+module.exports = config;

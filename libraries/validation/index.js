@@ -5,4 +5,4 @@ const ajv = new Ajv();
 addFormats(ajv);
 
 // Exporting instance => singleton pattern, important for caching schemas
-exports.default = ajv;
+module.exports = ajv;

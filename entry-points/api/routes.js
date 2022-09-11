@@ -1,7 +1,7 @@
 const express = require("express");
 const productUseCase = require("../../domain/product-use-case");
 
-exports.default = (expressApp) => {
+function defineRoutes(expressApp) {
     const router = express.Router();
 
     router.get("/", async (req, res) => {
@@ -19,4 +19,6 @@ exports.default = (expressApp) => {
     });
 
     expressApp.use("/test", router);
-};
+}
+
+module.exports = defineRoutes;

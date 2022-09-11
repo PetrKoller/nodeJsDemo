@@ -1,7 +1,7 @@
 const express = require("express");
-const defineRoutes = require("./routes").default;
+const defineRoutes = require("./routes");
 const configurationProvider = require("../../libraries/configuration-provider");
-const configSchema = require("../../config").default;
+const configSchema = require("../../config");
 const { logger } = require("../../libraries/logger");
 
 let connection;
