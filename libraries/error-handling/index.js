@@ -14,7 +14,7 @@ class AppError extends Error {
     }
 }
 
-async function terminateHttpServer() {
+function terminateHttpServer() {
     return new Promise((resolve) => {
         if (httpServerRef) {
             httpServerRef.close(() => {
