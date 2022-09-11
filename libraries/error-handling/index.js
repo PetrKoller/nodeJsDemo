@@ -14,11 +14,18 @@ class AppError extends Error {
     }
 }
 
-const terminateHttpServerAndExit = async () => {
-    if (httpServerRef) {
-        await httpServerRef.close();
-    }
-    process.exit();
+async function terminateHttpServer() {
+    return new Promise((resolve) => {
+        if (httpServerRef) {
+            httpServerRef.close(() => {
+                resolve();
+            });
+        }
+    });
+}
+// TODO need to test if this modification is ok
+const terminateHttpServerAndExit = () => {
+    terminateHttpServer().then(process.exit());
 };
 
 const normalizeError = (errorToHandle) => {
@@ -42,31 +49,31 @@ const normalizeError = (errorToHandle) => {
 const errorHandler = {
     listenToErrorEvents: (httpServer) => {
         httpServerRef = httpServer;
-        process.on("uncaughtException", async (error) => {
-            await errorHandler.handleError(error);
+        process.on("uncaughtException", (error) => {
+            errorHandler.handleError(error);
         });
 
-        process.on("unhandledRejection", async (reason) => {
-            await errorHandler.handleError(reason);
+        process.on("unhandledRejection", (reason) => {
+            errorHandler.handleError(reason);
         });
 
-        process.on("SIGTERM", async () => {
+        process.on("SIGTERM", () => {
             logger.error("App received SIGTERM event, try to gracefully close the server");
-            await terminateHttpServerAndExit();
+            terminateHttpServerAndExit();
         });
         process.on("SIGINT", async () => {
             logger.error("App received SIGINT event, try to gracefully close the server");
-            await terminateHttpServerAndExit();
+            terminateHttpServerAndExit();
         });
     },
 
-    handleError: async (errorToHandle) => {
+    handleError: (errorToHandle) => {
         try {
             const appError = normalizeError(errorToHandle);
             logger.error(appError.message, appError);
 
             if (!appError.isTrusted) {
-                await terminateHttpServerAndExit();
+                terminateHttpServerAndExit();
             }
         } catch (handlingError) {
             process.stdout.write(
