@@ -3,6 +3,7 @@ const defineRoutes = require("./routes");
 const configurationProvider = require("../../libraries/configuration-provider");
 const configSchema = require("../../config");
 const { logger } = require("../../libraries/logger");
+const { errorHandler } = require("../../libraries/error-handling");
 
 let connection;
 
@@ -16,6 +17,27 @@ async function openConnection(expressApp) {
     });
 }
 
+function handleRouteErrors(expressApp) {
+    expressApp.use(
+        async (
+            error,
+            req,
+            res,
+            // eslint-disable-next-line
+            next
+        ) => {
+            if (error && typeof error === "object") {
+                if (error.isTrusted === undefined || error.isTrusted === null) {
+                    error.isTrusted = true;
+                }
+            }
+
+            errorHandler.handleError(error);
+            res.status(error?.HTTPStatus || 500).end();
+        }
+    );
+}
+
 async function startWebServer() {
     configurationProvider.init(configSchema);
     logger.configureLogger(configurationProvider.getValue("logger"), true);
@@ -24,6 +46,7 @@ async function startWebServer() {
     expressApp.use(express.urlencoded({ extended: true }));
     expressApp.use(express.json());
     defineRoutes(expressApp);
+    handleRouteErrors(expressApp);
 
     const APIAddress = await openConnection(expressApp);
     return APIAddress;

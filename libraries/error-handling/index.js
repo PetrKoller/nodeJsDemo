@@ -20,10 +20,12 @@ function terminateHttpServer() {
             httpServerRef.close(() => {
                 resolve();
             });
+        } else {
+            resolve();
         }
     });
 }
-// TODO need to test if this modification is ok
+
 const terminateHttpServerAndExit = () => {
     terminateHttpServer().then(process.exit());
 };
@@ -70,9 +72,10 @@ const errorHandler = {
     handleError: (errorToHandle) => {
         try {
             const appError = normalizeError(errorToHandle);
-            logger.error(appError.message, appError);
+            logger.error(appError);
 
             if (!appError.isTrusted) {
+                logger.error("Terminating server due to untrusted error");
                 terminateHttpServerAndExit();
             }
         } catch (handlingError) {
@@ -83,4 +86,9 @@ const errorHandler = {
             process.stdout.write(JSON.stringify(errorToHandle));
         }
     },
+};
+
+module.exports = {
+    errorHandler,
+    AppError,
 };
