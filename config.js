@@ -22,6 +22,15 @@ const config = {
             env: "PRETTY_PRINT_LOG",
         },
     },
+    DB: {
+        connectionString: {
+            doc: "Database connection string",
+            format: "String",
+            default: "mongodb://localhost:27017/test",
+            nullable: false,
+            env: "DB_CONNECTION_STRING",
+        },
+    },
 };
 
 module.exports = config;

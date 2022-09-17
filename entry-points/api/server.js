@@ -4,6 +4,7 @@ const configurationProvider = require("../../libraries/configuration-provider");
 const configSchema = require("../../config");
 const { logger } = require("../../libraries/logger");
 const { errorHandler } = require("../../libraries/error-handling");
+const connectToDB = require("../../data-access/db-connection");
 
 let connection;
 
@@ -12,6 +13,7 @@ async function openConnection(expressApp) {
         const portToListen = configurationProvider.getValue("port");
 
         connection = expressApp.listen(portToListen, () => {
+            errorHandler.listenToErrorEvents(connection);
             resolve(connection.address());
         });
     });
@@ -41,6 +43,8 @@ function handleRouteErrors(expressApp) {
 async function startWebServer() {
     configurationProvider.init(configSchema);
     logger.configureLogger(configurationProvider.getValue("logger"), true);
+
+    await connectToDB(configurationProvider.getValue("DB.connectionString"));
 
     const expressApp = express();
     expressApp.use(express.urlencoded({ extended: true }));
