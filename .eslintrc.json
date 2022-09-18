@@ -21,6 +21,7 @@
         "prettier/prettier": "error",
         "no-console": "off",
         "no-return-await": "off",
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "no-underscore-dangle": "off"
     }
 }
