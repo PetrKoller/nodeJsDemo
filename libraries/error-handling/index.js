@@ -13,7 +13,7 @@ class AppError extends Error {
         this.cause = cause;
     }
 }
-
+// TODO Poresit lepsi reseni terminovani serveru, tohle je prasarna
 function terminateHttpServer() {
     return new Promise((resolve) => {
         if (httpServerRef) {
@@ -25,7 +25,7 @@ function terminateHttpServer() {
         }
     });
 }
-
+// nejak elegantneji prepsat, prasarna
 const terminateHttpServerAndExit = () => {
     terminateHttpServer().then(process.exit());
 };

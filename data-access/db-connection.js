@@ -9,6 +9,7 @@ function registerErrorListeners() {
         );
     });
 
+    // TODO Poresit, pri skonceni testu killnu mongo, coz zavola tenhle event a dojde k vyvolani erroru, ktery hazi process.exit called with ""
     mongoose.connection.on("disconnected", (err) => {
         errorHandler.handleError(
             new AppError("mogodb-disconnected-error", "Lost connection to MongoDB", err, 500, false)

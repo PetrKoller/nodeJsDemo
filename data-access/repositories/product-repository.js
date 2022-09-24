@@ -2,10 +2,10 @@ const Product = require("./product-model");
 const { logger } = require("../../libraries/logger");
 
 async function addProduct(product) {
-    logger.info(`Adding new product with id: ${product.id}`);
+    logger.info(`Adding new product with id: ${product._id}`);
     await Product.create(product);
 
-    return product;
+    return product._id;
 }
 
 async function getProduct(id) {
