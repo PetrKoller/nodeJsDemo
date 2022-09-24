@@ -1,5 +1,3 @@
-const path = require("path");
-const dockerCompose = require("docker-compose");
 const express = require("express");
 const defineRoutes = require("./routes");
 const configurationProvider = require("../../libraries/configuration-provider");
