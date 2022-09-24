@@ -2,7 +2,8 @@
     "env": {
         "node": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
@@ -10,6 +11,7 @@
         "airbnb-base",
         "plugin:security/recommended",
         "plugin:import/recommended",
+        "plugin:jest/all",
         "prettier"
     ],
     "plugins": ["prettier"],
@@ -22,6 +24,8 @@
         "no-console": "off",
         "no-return-await": "off",
         "no-param-reassign": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "node/no-unpublished-require": "off",
+        "jest/require-hook": "off"
     }
 }
