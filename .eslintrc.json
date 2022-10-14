@@ -11,7 +11,7 @@
         "airbnb-base",
         "plugin:security/recommended",
         "plugin:import/recommended",
-        "plugin:jest/all",
+        "plugin:jest/recommended",
         "prettier"
     ],
     "plugins": ["prettier"],
@@ -25,9 +25,6 @@
         "no-return-await": "off",
         "no-param-reassign": "off",
         "no-underscore-dangle": "off",
-        "node/no-unpublished-require": "off",
-        "jest/require-hook": "off",
-        "jest/no-hooks"
-
+        "node/no-unpublished-require": "off"
     }
 }
